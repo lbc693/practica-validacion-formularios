@@ -1,0 +1,40 @@
+/* custom template */
+
+html, body {
+    height: 100%;
+    background-color: #A9E2F3;
+    color: #0A0A2A;
+    font-family: verdana, arial, sans-serif;
+}
+.form-horizontal {
+    background-color: #58D3F7;
+    border-radius: 20px;
+}
+.form-horizontal {
+    background-color: #58D3F7;
+}
+.form-horizontal fieldset legend {
+    color: #070B19;
+}
+.form-horizontal fieldset .form-group {
+    background-color: #CEECF5;
+    border-radius: 0px 0px 10px;
+}
+@media screen and (min-width: 701px) {
+    .form-horizontal {
+        margin: 5% 10%;
+        padding: 5%;
+    }
+}
+@media screen and (min-width: 976px) {
+    .form-horizontal {
+        margin: 5% 10%;
+        padding: 5%;
+    }
+    .form-horizontal {
+        padding: 5%;
+    }
+    .form-horizontal fieldset .form-group {
+        padding: 5px 0px 5px 0px;
+    }
+}
