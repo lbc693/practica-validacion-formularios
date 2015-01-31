@@ -1,0 +1,97 @@
+ $(document).ready(function() {
+     //Esta será la validación general del formulario
+     $("#validForm").validate({
+         //Reglas de validación
+         //- Comprobaremos que el usuario no exista previamente en la bbdd(NIF o email, el CIF no es necesario).
+         ///- Teléfono contendrá solo dígitos y un total de 9. - CP tendrán que ser 5 digitos.Si son menos se completará con 0 a la izquierda. - email debe ser un correo electrónico válido(al menos en apariencia) - Por defecto estará marcado como demandante Particular y como Nombre(apartado Datos de facturación) la combinación de los campos Nombre y Apellidos de la información de contacto.Si el usuario selecciona como demandante Empresa, se borrará el contenido del campo“ Nombre”, que pasará a llamarse“ Empresa” para que el usuario lo rellene. - Los campos CIF / NIF y Nombre / Empresa adecuarán su label en función del demandante seleccionado. - Una vez insertado el código postal, se debe seleccionar la provincia y la localidad de forma automática.La localidad se rellenará con criterio libre. - El código IBAN debe ser válido. - El usuario debe tener al menos 4 caracteres, se rellenará de modo automático con el correo electrónico y no podrá ser modificado. - La contraseña se debe forzar a que sea compleja. - Una vez pulsemos enviar en el formulario se mostrará un aviso al usuario de que se va a dar de alta y que se le pasará la primera cuota de 50€, 140€ o 550€ según corresponda(forma de pago).El usuario podrá cancelar la operación.
+         rules: {
+             //- Todos los campos con * son requeridos
+             name: {
+               required: true
+           },
+           surname: {
+               required: true
+           },
+           phone: {
+               required: true
+           },
+           email: {
+               required: true
+           },
+           r_how_discover: {
+               required: true
+           },
+           r_plaintiff: {
+               required: true
+           },
+           cif_nif: {
+               required: true
+           },
+           enterprise_name: {
+               required: true
+           },
+           address: {
+               required: true
+           },
+           postal_code: {
+               required: true
+           },
+           location: {
+               required: true
+           },
+           province: {
+               required: true
+           },
+           country: {
+               required: true
+           },
+           iban: {
+               required: true
+           },
+           r_payment: {
+               required: true
+           },
+           user: {
+               required: true
+           },
+           password: {
+               required: true
+           }
+       },
+       messages: {
+           firstName: {
+               lettersonly: "Introduce sólo carácteres."
+           },
+           lastName1: {
+               lettersonly: "Introduce sólo carácteres."
+           },
+           lastName2: {
+               lettersonly: "Introduce sólo carácteres."
+           },
+           documentNumber: {
+               remote: "Este DNI ya esta en uso.",
+           },
+           email: {
+               remote: "Este correo ya esta en uso.",
+           },
+           tarjetacredito: {
+               creditcardtypes: "Número de tarjeta incorrecto."
+           }
+       },
+       errorPlacement: function(error, element) {
+           if (element.is("input:radio")) {
+                 //$parent = element.parentsUntil('.form-group','.form-group').parent();
+                 //$parent = element.parentsUntil('.fieldset',"label[for^='element.name']").parent();
+                 $parent = element.parentsUntil('.fieldset', '.form-group').parent();
+                 //console.log($parent);
+                 error.insertAfter($parent);
+             } else {
+               error.insertAfter(element);
+           }
+       },
+         //Captura el envío del formulario una vez que se ha rellenado correctamente
+         submitHandler: function() {
+           alert("¡Enviado!");
+       }
+   });
+});

@@ -11,6 +11,8 @@ html, body {
     border-radius: 20px;
 }
 .form-horizontal {
+            margin: 5% 5%;
+
     background-color: #58D3F7;
 }
 .form-horizontal fieldset legend {
@@ -19,6 +21,22 @@ html, body {
 .form-horizontal fieldset .form-group {
     background-color: #CEECF5;
     border-radius: 0px 0px 10px;
+}
+.btn-custom {
+    background-color: #08c;
+    border-color: #08c;
+}
+.btn-custom:hover, .btn-custom:focus, .btn-custom:active, .btn-custom.active {
+    background-color: #0077b3;
+    border-color: #006699;
+}
+.btn-custom.disabled:hover, .btn-custom.disabled:focus, .btn-custom.disabled:active, .btn-custom.disabled.active, .btn-custom[disabled]:hover, .btn-custom[disabled]:focus, .btn-custom[disabled]:active, .btn-custom[disabled].active, fieldset[disabled] .btn-custom:hover, fieldset[disabled] .btn-custom:focus, fieldset[disabled] .btn-custom:active, fieldset[disabled] .btn-custom.active {
+    background-color: #08c;
+    border-color: #08c;
+}
+.form-actions {
+    background-color: #08c;
+    text-align: center;
 }
 @media screen and (min-width: 701px) {
     .form-horizontal {
