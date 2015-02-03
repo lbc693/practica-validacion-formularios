@@ -15,12 +15,14 @@
              },
              phone: {
                  required: true,
+                 //- Teléfono contendrá solo dígitos y un total de 9.
                  digits: true,
                  minlength: 9,
                  maxlength: 9
              },
              email: {
                  required: true,
+                 //- email debe ser un correo electrónico válido(al menos en apariencia) 
                  email_custom: true,
                  //- Comprobaremos que el usuario no exista previamente en la bbdd(NIF o email, el CIF no es necesario).
                  remote: "php/validar_email_db.php"
@@ -42,6 +44,7 @@
              },
              postal_code: {
                  required: true,
+                 //- CP tendrán que ser 5 digitos.Si son menos se completará con 0 a la izquierda.
                  digits: true,
                  maxlength: 5,
              },
@@ -65,6 +68,11 @@
              },
              password: {
                  required: true
+             }
+         },
+         messages: {
+             email: {
+                 remote: "Este correo ya esta en uso."
              }
          },
          errorPlacement: function(error, element) {
@@ -119,7 +127,7 @@
       */
      function autocompletarNombre() {
          $nombre = $("#name").val() + " " + $("#surname").val();
-         if ($nombre !== '' && $("#particular").is(':checked'))
+         if ($nombre != '' && $("#particular").is(':checked'))
              $("#name_enterprise_name").val($nombre);
      }
  });
