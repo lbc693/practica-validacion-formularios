@@ -4,7 +4,7 @@
      $("#validForm").validate({
          //Reglas de validación
          //- Comprobaremos que el usuario no exista previamente en la bbdd(NIF o email, el CIF no es necesario).
-         // - Por defecto estará marcado como demandante Particular y como Nombre(apartado Datos de facturación) la combinación de los campos Nombre y Apellidos de la información de contacto.Si el usuario selecciona como demandante Empresa, se borrará el contenido del campo“ Nombre”, que pasará a llamarse“ Empresa” para que el usuario lo rellene. - Los campos CIF / NIF y Nombre / Empresa adecuarán su label en función del demandante seleccionado. - Una vez insertado el código postal, se debe seleccionar la provincia y la localidad de forma automática.La localidad se rellenará con criterio libre. - El código IBAN debe ser válido. - El usuario debe tener al menos 4 caracteres, se rellenará de modo automático con el correo electrónico y no podrá ser modificado. - La contraseña se debe forzar a que sea compleja. - Una vez pulsemos enviar en el formulario se mostrará un aviso al usuario de que se va a dar de alta y que se le pasará la primera cuota de 50€, 140€ o 550€ según corresponda(forma de pago).El usuario podrá cancelar la operación.
+         //- Los campos CIF / NIF y Nombre / Empresa adecuarán su label en función del demandante seleccionado. - Una vez insertado el código postal, se debe seleccionar la provincia y la localidad de forma automática.La localidad se rellenará con criterio libre. - El código IBAN debe ser válido. - El usuario debe tener al menos 4 caracteres, se rellenará de modo automático con el correo electrónico y no podrá ser modificado. - La contraseña se debe forzar a que sea compleja. - Una vez pulsemos enviar en el formulario se mostrará un aviso al usuario de que se va a dar de alta y que se le pasará la primera cuota de 50€, 140€ o 550€ según corresponda(forma de pago).El usuario podrá cancelar la operación.
          rules: {
              //- Todos los campos con * son requeridos
              name: {
@@ -45,7 +45,7 @@
              cif_nif: {
                  required: true
              },
-             enterprise_name: {
+             name_enterprise_name: {
                  required: true
              },
              address: {
@@ -112,15 +112,19 @@
              }
          },
          errorPlacement: function(error, element) {
-             if (element.is("input:radio")) {
-                 //$parent = element.parentsUntil('.form-group','.form-group').parent();
-                 //$parent = element.parentsUntil('.fieldset',"label[for^='element.name']").parent();
-                 $parent = element.parentsUntil('.fieldset', '.form-group').parent();
-                 //console.log($parent);
-                 error.insertAfter($parent);
-             } else {
-                 error.insertAfter(element);
-             }
+             /*
+                          if (element.is("input:radio")) {
+                              //$parent = element.parentsUntil('.form-group','.form-group').parent();
+                              //$parent = element.parentsUntil('.fieldset',"label[for^='element.name']").parent();
+                              //$parent = element.parentsUntil('.fieldset', '.form-group').parent();
+                              //console.log($parent);
+                              //error.insertAfter($parent);
+                              error.insertAfter($("label[for='" + element.attr('name') + "']"));
+                          } else {
+                             // error.insertAfter(element);
+                          }
+                         */
+             error.insertAfter($("label[for='" + element.attr('name') + "']"));
          },
          //Captura el envío del formulario una vez que se ha rellenado correctamente
          submitHandler: function() {
@@ -136,4 +140,46 @@
                  caracteres = $("#postal_code").val();
              }
      });
+
+     /*
+     $("#particular").keyup(function(event) {
+         if ($("#particular").is(':checked')) {
+             $("#name_enterprise_name").attr("placeholder", $("#name").val() + " " + $("#surname").val());
+         }
+     });
+    */
+
+     $("#surname").blur(function(event) {
+         autocompletarNombre();
+     });
+
+
+
+     //Por defecto estará marcado como demandante Particular y como Nombre (apartado Datos de facturación) 
+     //la combinación de los campos Nombre y Apellidos de la información de contacto.
+     // Si el input:radio #particular esta marcado:
+     $("#particular").change(function(evento) {
+         if ($("#particular").is(':checked')) {
+             $("label[for='name_enterprise_name']").first().text("Nombre");
+             //$("#name_enterprise_name").attr("placeholder", $("#name").val() + " " + $("#surname").val());
+             $("#name_enterprise_name").attr("placeholder", "Nombre");
+             autocompletarNombre();
+         }
+     });
+
+     // Si el usuario selecciona como demandante Empresa, se borrará el contenido del campo“ Nombre”, que pasará a llamarse“ Empresa” para que el usuario lo rellene. 
+     // Si el input:radio #particular esta marcado:
+     $("#empresa").change(function(evento) {
+         if ($("#empresa").is(':checked')) {
+             $("label[for='name_enterprise_name']").first().text("Empresa");
+             $("#name_enterprise_name").val('');
+             $("#name_enterprise_name").attr("placeholder", "Nombre de la empresa");
+         }
+     });
+
+     function autocompletarNombre() {
+         $nombre = $("#name").val() + " " + $("#surname").val();
+         if ($nombre != '')
+             $("#name_enterprise_name").val($nombre);
+     }
  });
