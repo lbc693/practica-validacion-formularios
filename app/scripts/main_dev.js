@@ -165,6 +165,116 @@
          }
      }
 
-     $("#sb_country").select2();
+     $('#attendee').select2({
+         placeholder: 'Enter name',
+         //Does the user have to enter any data before sending the ajax request
+         minimumInputLength: 0,
+         allowClear: true,
+         ajax: {
+             //How long the user has to pause their typing before sending the next request
+             quietMillis: 150,
+             //The url of the json service
+             url: 'http://restcountries.eu/rest/v1/all',
+             dataType: 'jsonp',
+             //Our search term and what page we are on
+             data: function(term, page) {
+                 return {
+                     pageSize: pageSize,
+                     pageNum: page,
+                     searchTerm: term
+                 };
+             },
+             results: function(data, page) {
+                 //Used to determine whether or not there are more results available,
+                 //and if requests for more data should be sent in the infinite scrolling
+                 var more = (page * pageSize) < data.Total;
+                 return {
+                     results: data.Results,
+                     more: more
+                 };
+             }
+         }
+     });
 
+     $("#sb_country").select2("val", "");
+
+     function MultiAjaxAutoComplete(element, url) {
+         $.ajax({
+             url: url,
+             type: 'GET',
+             dataType: 'json',
+             data: function(term, page) {
+
+                 return {
+                     q: term,
+                     page_limit: 10,
+                     apikey: "z4vbb4bjmgsb7dy33kvux3ea" //my own apikey
+                 };
+             },
+             results: function(data, page) {
+                 alert(data);
+                 return {
+                     results: data.movies
+                 };
+             }
+         });
+         $('#country').select2("val", "");
+         /*
+         $(element).select2({
+             placeholder: "Search for a movie",
+             minimumInputLength: 1,
+             value: function(e) {
+                 return e.value + ":" + e.title;
+             },
+             ajax: {
+                 url: url,
+                 dataType: 'json',
+                 data: function(term, page) {
+
+                     return {
+                         q: term,
+                         page_limit: 10,
+                         apikey: "z4vbb4bjmgsb7dy33kvux3ea" //my own apikey
+                     };
+                 },
+                 results: function(data, page) {
+                     alert(data);
+                     return {
+                         results: data.movies
+                     };
+                 }
+             },
+             formatResult: formatResult,
+             formatSelection: formatSelection,
+             initSelection: function(element, callback) {
+                 var data = [];
+                 $(element.val().split(",")).each(function(i) {
+                     var item = this.split(':');
+                     data.push({
+                         value: item[0],
+                         title: item[1]
+                     });
+                 });
+                 //$(element).val('');
+                 callback(data);
+             }
+         });
+ */
+     };
+
+     function formatResult(movie) {
+         return '<div>' + movie.title + '</div>';
+     };
+
+     function formatSelection(data) {
+         return data.title;
+     };
+
+
+
+     MultiAjaxAutoComplete('#country', 'http://api.rottentomatoes.com/api/public/v1.0/movies.json');
+
+     $('#country').click(function() {
+         alert($('#country').val());
+     });
  });
