@@ -29,6 +29,7 @@
                  remote: "php/validar_email_db.php"
              },
              email2: {
+                 required: true,
                  equalTo: email
              },
              r_how_discover: {
@@ -38,7 +39,17 @@
                  required: true
              },
              cif_nif: {
-                 required: true
+                 required: true,
+                 nifES: function() {
+                     if ($("#particular").is(':checked')) {
+                         return true;
+                     }
+                 },
+                 cifES: function() {
+                     if ($("#empresa").is(':checked')) {
+                         return true;
+                     }
+                 },
              },
              name_enterprise_name: {
                  required: true
@@ -74,6 +85,7 @@
                  required: true
              },
              password2: {
+                 required: true,
                  equalTo: password
              }
          },
@@ -152,4 +164,5 @@
              //console.log('Cambio el nombre por: '+$nombre);
          }
      }
+
  });
