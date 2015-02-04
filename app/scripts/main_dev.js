@@ -27,6 +27,9 @@
                  //- Comprobaremos que el usuario no exista previamente en la bbdd(NIF o email, el CIF no es necesario).
                  remote: "php/validar_email_db.php"
              },
+             email2: {
+                 equalTo: email
+             },
              r_how_discover: {
                  required: true
              },
@@ -68,6 +71,9 @@
              },
              password: {
                  required: true
+             },
+             password2: {
+                 equalTo: password
              }
          },
          messages: {
@@ -84,11 +90,14 @@
          }
      });
 
+     /*
+      *Cuando el código postal pierde el foco se autocompleta con ceros ala izquierda
+      */
      $("#postal_code").focusout(function() {
          var caracteres = $("#postal_code").val();
          if (caracteres.length > 0 && caracteres.match(/^\d+$/))
              while (caracteres.length <= 4) {
-                 $("#postal_code").val(caracteres + "0");
+                 $("#postal_code").val("0" + caracteres);
                  caracteres = $("#postal_code").val();
              }
      });
@@ -106,6 +115,8 @@
      $("#particular").change(function(evento) {
          if ($("#particular").is(':checked')) {
              $("label[for='name_enterprise_name']").first().text("Nombre");
+             $("label[for='name_enterprise_name'] > span").addClass("required");
+             $("label[for='name_enterprise_name'] > span").text("*");
              $("#name_enterprise_name").attr("placeholder", "Nombre");
              autocompletarNombre();
          }
@@ -116,7 +127,7 @@
      $("#empresa").change(function(evento) {
          if ($("#empresa").is(':checked')) {
              $("label[for='name_enterprise_name']").first().text("Empresa");
-             $("#name_enterprise_name").val('');
+             $("#name_enterprise_name").text('');
              $("#name_enterprise_name").attr("placeholder", "Nombre de la empresa");
          }
      });
@@ -128,6 +139,6 @@
      function autocompletarNombre() {
          $nombre = $("#name").val() + " " + $("#surname").val();
          if ($nombre != '' && $("#particular").is(':checked'))
-             $("#name_enterprise_name").val($nombre);
+             $("#name_enterprise_name").text($nombre);
      }
  });
