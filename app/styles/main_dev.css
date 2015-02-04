@@ -6,13 +6,16 @@ html, body {
     color: #0A0A2A;
     font-family: verdana, arial, sans-serif;
 }
+.required, .error {
+    color: #F11;
+    font-size: small;
+}
 .form-horizontal {
     background-color: #58D3F7;
     border-radius: 20px;
 }
 .form-horizontal {
-            margin: 5% 5%;
-
+    margin: 5% 5%;
     background-color: #58D3F7;
 }
 .form-horizontal fieldset legend {

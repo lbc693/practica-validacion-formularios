@@ -11,7 +11,8 @@
                  lettersonly: true
              },
              surname: {
-                 required: true
+                 required: true,
+                 lettersonly: true
              },
              phone: {
                  required: true,
@@ -60,7 +61,8 @@
                  required: true
              },
              iban: {
-                 required: true
+                 required: true,
+                 iban: true
              },
              r_payment: {
                  required: true
