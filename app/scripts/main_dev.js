@@ -47,7 +47,6 @@
              },
              postal_code: {
                  required: true,
-                 //- CP tendrán que ser 5 digitos.Si son menos se completará con 0 a la izquierda.
                  digits: true,
                  maxlength: 5,
              },
@@ -90,6 +89,7 @@
          }
      });
 
+     // CP tendrán que ser 5 digitos.Si son menos se completará con 0 a la izquierda.
      /*
       *Cuando el código postal pierde el foco se autocompleta con ceros ala izquierda
       */
@@ -107,18 +107,21 @@
      //Los campos CIF / NIF y Nombre / Empresa adecuarán su label en función del demandante seleccionado.
 
      //Cuando se pierde el foco del input del apellido se autocompletará el Nombre en el apartado Datos de facturación
-     $("#surname").blur(function(event) {
+     $("#surname").focusout(function(event) {
+         console.log('apellido pierde foco');
          autocompletarNombre();
      });
 
      // Si el input:radio #particular esta marcado:
      $("#particular").change(function(evento) {
          if ($("#particular").is(':checked')) {
-             $("label[for='name_enterprise_name']").first().text("Nombre");
-             $("label[for='name_enterprise_name'] > span").addClass("required");
-             $("label[for='name_enterprise_name'] > span").text("*");
-             $("#name_enterprise_name").attr("placeholder", "Nombre");
+             $("label[for='name_enterprise_name']").first().html('Nombre<span class="required"> *</span>');
+             $("#name_enterprise_name").val('');
+             $("#name_enterprise_name").attr('placeholder', 'Nombre');
              autocompletarNombre();
+             $("label[for='cif_nif']").first().html('NIF<span class="required"> *</span>');
+             $("#cif_nif").val('');
+             $("#cif_nif").attr('placeholder', 'NIF');
          }
      });
 
@@ -126,9 +129,12 @@
      // Si el input:radio #particular esta marcado:
      $("#empresa").change(function(evento) {
          if ($("#empresa").is(':checked')) {
-             $("label[for='name_enterprise_name']").first().text("Empresa");
-             $("#name_enterprise_name").text('');
-             $("#name_enterprise_name").attr("placeholder", "Nombre de la empresa");
+             $("label[for='name_enterprise_name']").first().html('Empresa<span class="required"> *</span>');
+             $("#name_enterprise_name").val('');
+             $("#name_enterprise_name").attr('placeholder', 'Nombre de la empresa');
+             $("label[for='cif_nif']").first().html('CIF<span class="required"> *</span>');
+             $("#cif_nif").val('');
+             $("#cif_nif").attr('placeholder', 'CIF');
          }
      });
 
@@ -137,8 +143,11 @@
       * si estos no están vacíos y si está seleccionado como demandante "particular"
       */
      function autocompletarNombre() {
+         //console.log('autocompletarNombre');
          $nombre = $("#name").val() + " " + $("#surname").val();
-         if ($nombre != '' && $("#particular").is(':checked'))
-             $("#name_enterprise_name").text($nombre);
+         if ($nombre !== ' ' && $("#particular").is(':checked')) {
+             $("#name_enterprise_name").val($nombre);
+             //console.log('Cambio el nombre por: '+$nombre);
+         }
      }
  });
