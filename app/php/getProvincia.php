@@ -1,4 +1,5 @@
 <?php
+header('content-type: application/json; charset=utf-8');
 /* Descomentaríamos la siguiente línea para mostrar errores de php en el fichero: */
 // ini_set('display_errors', '1');
 /* Definimos los parámetros de conexión con la bbdd: */
@@ -14,37 +15,25 @@ try {
     echo "La conexi&oacute;n ha fallado: " . $e->getMessage();
 }
 /* Para hacer debug cargaríamos a mano el parámetro, descomentaríamos la siguiente línea: */
-//$_REQUEST['zip'] = "12";
-if (isset($_POST['zip'])) {
+        //$_POST['zip'] = "12";
+if (isset($_POST['zip']) || 1) {
     /* La línea siguiente la podemos descomentar para ver desde firebug-xhr si se pasa bien el parámetro desde el formulario */
-    //echo $_REQUEST['email'];
-    if (strlen($_POST['zip']) >= 2){
-	    $zip = substr($_POST['zip'], 0, 2);
+            //echo $_REQUEST['email'];
+    if (strlen($_POST['zip']) >= 2) {
+        $zip = substr($_POST['zip'], 0, 2);
     } else {
-	    $zip = $_POST['zip'];
+        $zip = $_POST['zip'];
     }
     $sql = $db->prepare("SELECT Provincia FROM t_provincias WHERE CodProv=?");
     $sql->bindParam(1, $zip, PDO::PARAM_STR);
     $sql->execute();
-    /* Ojo... PDOStatement::rowCount() devuelve el número de filas afectadas por la última sentencia DELETE, INSERT, o UPDATE 
-     * ejecutada por el correspondiente objeto PDOStatement.Si la última sentencia SQL ejecutada por el objeto PDOStatement 
-     * asociado fue una sentencia SELECT, algunas bases de datos podrían devolver el número de filas devuelto por dicha sentencia. 
-     * Sin embargo, este comportamiento no está garantizado para todas las bases de datos y no debería confiarse en él para 
-     * aplicaciones portables.
-     */
-    $valid = 'true'; 
-    if ($sql->rowCount() > 0) {
-        $valid= 'false';
-    } else {
-       $valid='true';
-    }
-    
-    
-	$okey = $sql->fetch();    
-    
-    
+
+    $results = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $json = json_encode($results,JSON_UNESCAPED_UNICODE );
+
+    echo($json);
 }
-$sql=null;
+$sql = null;
 $db = null;
-echo $okey[0];
+
 ?>
