@@ -23,6 +23,5 @@ $.extend($.validator.messages, {
     nifES: "Por favor, escribe un NIF válido.",
     nieES: "Por favor, escribe un NIE válido.",
     cifES: "Por favor, escribe un CIF válido.",
-    iban: "Por favor, escribe un IBAN válido.",
-    lettersonly: "Introduce sólo carácteres."
+    iban: "Por favor, escribe un IBAN válido."
 });

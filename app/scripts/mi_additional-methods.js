@@ -67,4 +67,18 @@
 
     }, 'Introduce un email válido.');
 
+    $.validator.addMethod("spanishlettersspacesonly", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/i.test(value);
+    }, "Introduce sólo letras");
+
+    $.validator.addMethod("compleja", function(value, element) {
+        complejidad =$("input[for='password'][name='complexity']").val();
+        if (complejidad == 100) {
+            return true;
+        } else {
+            return false;
+        }
+    }, "La contraseña debe ser más compleja");
+
+
 }));

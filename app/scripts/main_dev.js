@@ -3,16 +3,15 @@
      //Esta será la validación general del formulario
      $("#validForm").validate({
          //Reglas de validación
-         // -  - La contraseña se debe forzar a que sea compleja. 
          rules: {
              //- Todos los campos con * son requeridos
              name: {
                  required: true,
-                 lettersonly: true
+                 spanishlettersspacesonly: true
              },
              surname: {
                  required: true,
-                 lettersonly: true
+                 spanishlettersspacesonly: true
              },
              phone: {
                  required: true,
@@ -38,7 +37,7 @@
              r_plaintiff: {
                  required: true
              },
-             cif_nif: {
+             cifnif: {
                  required: true,
                  nifES: function() {
                      if ($("#particular").is(':checked')) {
@@ -50,6 +49,7 @@
                          return true;
                      }
                  },
+                 remote: "php/validar_nif_db.php"
              },
              name_enterprise_name: {
                  required: true
@@ -83,7 +83,9 @@
                  required: true
              },
              password: {
-                 required: true
+                 required: true,
+                 // La contraseña se debe forzar a que sea compleja. 
+                 compleja: true
              },
              password2: {
                  required: true,
@@ -93,6 +95,9 @@
          messages: {
              email: {
                  remote: "Este correo ya esta en uso."
+             },
+             cifnif: {
+                 remote: "Este NIF ya esta en uso."
              }
          },
          errorPlacement: function(error, element) {
@@ -188,9 +193,9 @@
              $("#name_enterprise_name").val('');
              $("#name_enterprise_name").attr('placeholder', 'Nombre');
              autocompletarNombre();
-             $("label[for='cif_nif']").first().html('NIF<span class="required"> *</span>');
-             $("#cif_nif").val('');
-             $("#cif_nif").attr('placeholder', 'NIF');
+             $("label[for='cifnif']").first().html('NIF<span class="required"> *</span>');
+             $("#cifnif").val('');
+             $("#cifnif").attr('placeholder', 'NIF');
          }
      });
 
@@ -201,9 +206,9 @@
              $("label[for='name_enterprise_name']").first().html('Empresa<span class="required"> *</span>');
              $("#name_enterprise_name").val('');
              $("#name_enterprise_name").attr('placeholder', 'Nombre de la empresa');
-             $("label[for='cif_nif']").first().html('CIF<span class="required"> *</span>');
-             $("#cif_nif").val('');
-             $("#cif_nif").attr('placeholder', 'CIF');
+             $("label[for='cifnif']").first().html('CIF<span class="required"> *</span>');
+             $("#cifnif").val('');
+             $("#cifnif").attr('placeholder', 'CIF');
          }
      });
 
@@ -219,6 +224,10 @@
              //console.log('Cambio el nombre por: '+$nombre);
          }
      }
+     $('#pb').css({
+         'background-image': 'none',
+         'background-color': 'red'
+     });
 
      /*
       * Autocompletará el Usuario (apartado Datos de acceso) a partir del email
@@ -227,4 +236,40 @@
          $("#user").val($("#email").val());
      }
 
+     $('#password').complexify({
+         strengthScaleFactor: 0.2
+     }, function(valid, complexity) {
+         if (complexity < 50) {
+             $('#pbPassword').css({
+                 'background-color': 'red'
+             });
+         } else if (complexity < 100) {
+             $('#pbPassword').css({
+                 'background-color': 'orange'
+             });
+         } else {
+             $('#pbPassword').css({
+                 'background-color': 'green'
+             });
+         }
+         $('#pbPassword').css({
+             'width': complexity + '%'
+         }).attr('aria-valuenow', complexity);
+         $("input[for='password'][name='complexity']").val(complexity);
+     });
+
+     /*
+      * Evita que se pueda cortar, copiar y pegar en los campos de password
+      */
+     $('#password').bind("cut copy paste", function(e) {
+         e.preventDefault();
+     });
+     $('#password2').bind("cut copy paste", function(e) {
+         e.preventDefault();
+     });
+
+     //Evita poder pegar en el campo de repetir email
+     $('#email2').bind("paste", function(e) {
+         e.preventDefault();
+     });
  });

@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <form class="form-horizontal" method="post" action="" id="validForm">
+    <form class="form-horizontal" method="post" action="#" id="validForm">
         <fieldset>
 
             <!-- Form Name -->
@@ -145,10 +145,10 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="cif_nif">NIF<span class="required"> *</span>
+                <label class="col-md-4 control-label" for="cifnif">NIF<span class="required"> *</span>
                 </label>
                 <div class="col-md-4">
-                    <input id="cif_nif" name="cif_nif" placeholder="NIF" class="form-control input-md" type="text">
+                    <input id="cifnif" name="cifnif" placeholder="NIF" class="form-control input-md" type="text">
 
                 </div>
             </div>
@@ -198,7 +198,7 @@
                 <label class="col-md-4 control-label" for="province">Provincia<span class="required"> *</span>
                 </label>
                 <div class="col-md-4">
-                    <input id="province" name="province" placeholder="Provincia" class="form-control input-md" type="text"  readonly="readonly">
+                    <input id="province" name="province" placeholder="Provincia" class="form-control input-md" type="text" readonly="readonly">
 
                 </div>
             </div>
@@ -518,7 +518,11 @@
                 </label>
                 <div class="col-md-4">
                     <input id="password" name="password" placeholder="Contraseña" class="form-control input-md" type="password">
-
+                    <div id="pbPassword" class="progress progress-striped active">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                        <input type="hidden" name="complexity" for="password"/>
+                    </div>
                 </div>
             </div>
 
@@ -528,7 +532,6 @@
                 </label>
                 <div class="col-md-4">
                     <input id="password2" name="password2" placeholder="Contraseña" class="form-control input-md" type="password">
-
                 </div>
             </div>
 
@@ -554,6 +557,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/jquery-validate/dist/jquery.validate.js"></script>
     <script src="bower_components/select2/select2.js"></script>
+    <script src="bower_components/jquery.complexify.js/jquery.complexify.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
